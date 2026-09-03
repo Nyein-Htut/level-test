@@ -176,17 +176,22 @@ body {
 
 .feature-strip {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.875rem; /* Vertical spacing between tags */
   margin-bottom: 2.25rem;
+  width: 100%;
 }
 
 .feature-tag {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
   background: var(--color-surface-subtle);
   border: 1px solid var(--color-espresso-100);
-  padding: 0.5rem 0.875rem;
+  padding: 0.75rem 1rem; /* More breathing room */
   border-radius: var(--radius-md);
-  font-size: 0.825rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-espresso-700);
 }
