@@ -2,7 +2,7 @@
 
 A fast, modern English proficiency assessment designed to provide an **indicative CEFR level from A1 to C2** in approximately 5 minutes.
 
-Built with a warm **cream & deep espresso** aesthetic, responsive interactions, and a simple, user-friendly experience across desktop and mobile.
+Built with a warm **cream & brown** aesthetic, responsive interactions, and a simple, user-friendly experience across desktop and mobile.
 
 ## ✨ Features
 
