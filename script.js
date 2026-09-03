@@ -189,13 +189,11 @@ function showResults() {
 function renderReviewSection() {
   let reviewContainer = document.getElementById("review-container");
 
-  // Create review container dynamically if it doesn't exist
+  // Create or reset review container
   if (!reviewContainer) {
     reviewContainer = document.createElement("div");
     reviewContainer.id = "review-container";
     reviewContainer.className = "review-section";
-    
-    // Insert before the restart button
     resultScreen.insertBefore(reviewContainer, restartBtn);
   }
 
@@ -211,11 +209,15 @@ function renderReviewSection() {
     return;
   }
 
+  // Collapsible toggle UI
   let html = `
-    <div class="review-header">
-      <h3>Review Your Mistakes (${incorrectAnswers.length})</h3>
-    </div>
-    <div class="review-list">
+    <button id="toggle-review-btn" class="glow-button outline review-toggle-btn">
+      <span>Review Mistakes (${incorrectAnswers.length})</span>
+      <span class="chevron-icon">▼</span>
+    </button>
+
+    <div id="review-list-wrapper" class="review-list-wrapper hidden">
+      <div class="review-list">
   `;
 
   incorrectAnswers.forEach((item, idx) => {
@@ -238,6 +240,25 @@ function renderReviewSection() {
     `;
   });
 
-  html += `</div>`;
+  html += `
+      </div>
+    </div>
+  `;
+
   reviewContainer.innerHTML = html;
+
+  // Add click event for expanding/collapsing
+  const toggleBtn = document.getElementById("toggle-review-btn");
+  const wrapper = document.getElementById("review-list-wrapper");
+
+  toggleBtn.addEventListener("click", () => {
+    const isHidden = wrapper.classList.contains("hidden");
+    if (isHidden) {
+      wrapper.classList.remove("hidden");
+      toggleBtn.classList.add("expanded");
+    } else {
+      wrapper.classList.add("hidden");
+      toggleBtn.classList.remove("expanded");
+    }
+  });
 }
