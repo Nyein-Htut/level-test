@@ -664,3 +664,42 @@ body {
     gap: 0.2rem;
   }
 }
+
+/* ==========================================================================
+   Viewport & Horizontal Scroll Lock Fixes
+   ========================================================================== */
+
+/* Prevent canvas overflow on all screens */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.glass-card {
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding stays inside screen boundaries */
+}
+
+/* Mobile sizing overrides */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.75rem; /* Reduces side padding to fit small viewports */
+  }
+
+  .glass-card {
+    padding: 1.5rem 1rem; /* Compact padding prevents element expansion */
+  }
+
+  .prompt-container h2 {
+    font-size: 1.15rem; /* Prevents long questions from stretching card width */
+    word-break: break-word;
+  }
+}
