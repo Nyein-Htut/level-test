@@ -54,212 +54,209 @@ const cefrDescriptions = {
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedOption = null;
-let userAnswers = []; // Tracks question, user response, and correct response
+let userAnswers = [];
 
-// DOM Elements
-const startScreen = document.getElementById("start-screen");
-const quizScreen = document.getElementById("quiz-screen");
-const resultScreen = document.getElementById("result-screen");
+// Safely wrap DOM interactions inside DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+  const startScreen = document.getElementById("start-screen");
+  const quizScreen = document.getElementById("quiz-screen");
+  const resultScreen = document.getElementById("result-screen");
 
-const startBtn = document.getElementById("start-btn");
-const nextBtn = document.getElementById("next-btn");
-const restartBtn = document.getElementById("restart-btn");
+  const startBtn = document.getElementById("start-btn");
+  const nextBtn = document.getElementById("next-btn");
+  const restartBtn = document.getElementById("restart-btn");
 
-const questionText = document.getElementById("question-text");
-const optionsContainer = document.getElementById("options-container");
-const questionCount = document.getElementById("question-count");
-const levelIndicator = document.getElementById("level-indicator");
-const progressBar = document.getElementById("progress-bar");
+  const questionText = document.getElementById("question-text");
+  const optionsContainer = document.getElementById("options-container");
+  const questionCount = document.getElementById("question-count");
+  const levelIndicator = document.getElementById("level-indicator");
+  const progressBar = document.getElementById("progress-bar");
 
-startBtn.addEventListener("click", startQuiz);
-nextBtn.addEventListener("click", handleNextQuestion);
-restartBtn.addEventListener("click", startQuiz);
+  if (startBtn) startBtn.addEventListener("click", startQuiz);
+  if (nextBtn) nextBtn.addEventListener("click", handleNextQuestion);
+  if (restartBtn) restartBtn.addEventListener("click", startQuiz);
 
-function startQuiz() {
-  currentQuestionIndex = 0;
-  score = 0;
-  userAnswers = [];
-  
-  startScreen.classList.add("hidden");
-  resultScreen.classList.add("hidden");
-  quizScreen.classList.remove("hidden");
-  
-  quizScreen.classList.remove("fade-in");
-  void quizScreen.offsetWidth; // Trigger reflow for animation
-  quizScreen.classList.add("fade-in");
-  
-  showQuestion();
-}
-
-function showQuestion() {
-  resetState();
-  const q = questions[currentQuestionIndex];
-  
-  questionText.innerText = q.question;
-  questionCount.innerText = `STEP ${String(currentQuestionIndex + 1).padStart(2, '0')}/${questions.length}`;
-  levelIndicator.innerText = `LEVEL ${q.level}`;
-  
-  const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
-  progressBar.style.width = `${progressPercent}%`;
-
-  const labels = ["A", "B", "C", "D"];
-  q.options.forEach((option, index) => {
-    const button = document.createElement("button");
-    button.classList.add("quiz-option");
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    userAnswers = [];
     
-    button.innerHTML = `
-      <span>${option}</span>
-      <span class="option-index">${labels[index]}</span>
-    `;
+    startScreen.classList.add("hidden");
+    resultScreen.classList.add("hidden");
+    quizScreen.classList.remove("hidden");
     
-    button.addEventListener("click", () => selectOption(button, index));
-    optionsContainer.appendChild(button);
-  });
-}
-
-function resetState() {
-  selectedOption = null;
-  nextBtn.disabled = true;
-  optionsContainer.innerHTML = "";
-}
-
-function selectOption(selectedBtn, index) {
-  const options = optionsContainer.querySelectorAll(".quiz-option");
-  options.forEach(btn => btn.classList.remove("selected"));
-  
-  selectedBtn.classList.add("selected");
-  selectedOption = index;
-  nextBtn.disabled = false;
-}
-
-function handleNextQuestion() {
-  const q = questions[currentQuestionIndex];
-  const isCorrect = selectedOption === q.answer;
-
-  if (isCorrect) {
-    score++;
-  }
-
-  // Store user attempt details for review
-  userAnswers.push({
-    question: q.question,
-    level: q.level,
-    selected: q.options[selectedOption],
-    correct: q.options[q.answer],
-    isCorrect: isCorrect
-  });
-
-  currentQuestionIndex++;
-  
-  if (currentQuestionIndex < questions.length) {
+    quizScreen.classList.remove("fade-in");
+    void quizScreen.offsetWidth; // Trigger reflow
+    quizScreen.classList.add("fade-in");
+    
     showQuestion();
-  } else {
-    showResults();
-  }
-}
-
-function calculateCEFR(scoreTotal) {
-  if (scoreTotal <= 5) return "A1";
-  if (scoreTotal <= 10) return "A2";
-  if (scoreTotal <= 16) return "B1";
-  if (scoreTotal <= 22) return "B2";
-  if (scoreTotal <= 27) return "C1";
-  return "C2";
-}
-
-function showResults() {
-  quizScreen.classList.add("hidden");
-  resultScreen.classList.remove("hidden");
-  
-  resultScreen.classList.remove("fade-in");
-  void resultScreen.offsetWidth; // Trigger reflow
-  resultScreen.classList.add("fade-in");
-
-  const cefrLevel = calculateCEFR(score);
-  const info = cefrDescriptions[cefrLevel];
-
-  document.getElementById("result-cefr").innerText = cefrLevel;
-  document.getElementById("result-title").innerText = info.title;
-  document.getElementById("result-score").innerText = `${score} / ${questions.length} Correct`;
-  document.getElementById("result-text").innerText = info.text;
-
-  renderReviewSection();
-}
-
-function renderReviewSection() {
-  let reviewContainer = document.getElementById("review-container");
-
-  if (!reviewContainer) {
-    reviewContainer = document.createElement("div");
-    reviewContainer.id = "review-container";
-    reviewContainer.className = "review-section";
-    resultScreen.insertBefore(reviewContainer, restartBtn);
   }
 
-  const incorrectAnswers = userAnswers.filter(item => !item.isCorrect);
+  function showQuestion() {
+    resetState();
+    const q = questions[currentQuestionIndex];
+    
+    questionText.innerText = q.question;
+    questionCount.innerText = `STEP ${String(currentQuestionIndex + 1).padStart(2, '0')}/${questions.length}`;
+    levelIndicator.innerText = `LEVEL ${q.level}`;
+    
+    const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progressBar.style.width = `${progressPercent}%`;
 
-  if (incorrectAnswers.length === 0) {
+    const labels = ["A", "B", "C", "D"];
+    q.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.classList.add("quiz-option");
+      
+      button.innerHTML = `
+        <span>${option}</span>
+        <span class="option-index">${labels[index]}</span>
+      `;
+      
+      button.addEventListener("click", () => selectOption(button, index));
+      optionsContainer.appendChild(button);
+    });
+  }
+
+  function resetState() {
+    selectedOption = null;
+    nextBtn.disabled = true;
+    optionsContainer.innerHTML = "";
+  }
+
+  function selectOption(selectedBtn, index) {
+    const options = optionsContainer.querySelectorAll(".quiz-option");
+    options.forEach(btn => btn.classList.remove("selected"));
+    
+    selectedBtn.classList.add("selected");
+    selectedOption = index;
+    nextBtn.disabled = false;
+  }
+
+  function handleNextQuestion() {
+    const q = questions[currentQuestionIndex];
+    const isCorrect = selectedOption === q.answer;
+
+    if (isCorrect) {
+      score++;
+    }
+
+    userAnswers.push({
+      question: q.question,
+      level: q.level,
+      selected: q.options[selectedOption],
+      correct: q.options[q.answer],
+      isCorrect: isCorrect
+    });
+
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function calculateCEFR(scoreTotal) {
+    if (scoreTotal <= 5) return "A1";
+    if (scoreTotal <= 10) return "A2";
+    if (scoreTotal <= 16) return "B1";
+    if (scoreTotal <= 22) return "B2";
+    if (scoreTotal <= 27) return "C1";
+    return "C2";
+  }
+
+  function showResults() {
+    quizScreen.classList.add("hidden");
+    resultScreen.classList.remove("hidden");
+    
+    resultScreen.classList.remove("fade-in");
+    void resultScreen.offsetWidth;
+    resultScreen.classList.add("fade-in");
+
+    const cefrLevel = calculateCEFR(score);
+    const info = cefrDescriptions[cefrLevel];
+
+    document.getElementById("result-cefr").innerText = cefrLevel;
+    document.getElementById("result-title").innerText = info.title;
+    document.getElementById("result-score").innerText = `${score} / ${questions.length} Correct`;
+    document.getElementById("result-text").innerText = info.text;
+
+    renderReviewSection();
+  }
+
+  function renderReviewSection() {
+    let reviewContainer = document.getElementById("review-container");
+
+    if (!reviewContainer) {
+      reviewContainer = document.createElement("div");
+      reviewContainer.id = "review-container";
+      reviewContainer.className = "review-section";
+      resultScreen.insertBefore(reviewContainer, restartBtn);
+    }
+
+    const incorrectAnswers = userAnswers.filter(item => !item.isCorrect);
+
+    if (incorrectAnswers.length === 0) {
+      reviewContainer.innerHTML = `
+        <div class="review-header perfect">
+          <h3>🎉 Perfect Score!</h3>
+          <p>You answered every diagnostic question correctly.</p>
+        </div>
+      `;
+      return;
+    }
+
     reviewContainer.innerHTML = `
-      <div class="review-header perfect">
-        <h3>🎉 Perfect Score!</h3>
-        <p>You answered every diagnostic question correctly.</p>
-      </div>
+      <button id="open-modal-btn" class="glow-button outline">
+        <span>Review Mistakes (${incorrectAnswers.length})</span>
+        <span>→</span>
+      </button>
     `;
-    return;
+
+    const modalList = document.getElementById("modal-review-list");
+    if (!modalList) return;
+
+    let html = "";
+    incorrectAnswers.forEach((item, idx) => {
+      html += `
+        <div class="review-card">
+          <div class="review-meta">
+            <span class="review-index">#${idx + 1}</span>
+            <span class="hud-chip">${item.level}</span>
+          </div>
+          <p class="review-question">${item.question}</p>
+          <div class="review-answers">
+            <div class="answer-badge wrong">
+              <span>Your answer:</span> <strong>${item.selected}</strong>
+            </div>
+            <div class="answer-badge right">
+              <span>Correct:</span> <strong>${item.correct}</strong>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    modalList.innerHTML = html;
+
+    const openBtn = document.getElementById("open-modal-btn");
+    const closeBtn = document.getElementById("close-modal-btn");
+    const closeActionBtn = document.getElementById("modal-close-action");
+    const modal = document.getElementById("review-modal");
+
+    if (openBtn && modal) {
+      openBtn.addEventListener("click", () => {
+        modal.classList.remove("hidden");
+      });
+    }
+
+    const closeModal = () => {
+      if (modal) modal.classList.add("hidden");
+    };
+
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (closeActionBtn) closeActionBtn.addEventListener("click", closeModal);
   }
-
-  // Trigger button for opening full-screen modal
-  reviewContainer.innerHTML = `
-    <button id="open-modal-btn" class="glow-button outline">
-      <span>Review Mistakes (${incorrectAnswers.length})</span>
-      <span>→</span>
-    </button>
-  `;
-
-  // Render cards inside the modal body
-  const modalList = document.getElementById("modal-review-list");
-  let html = "";
-
-  incorrectAnswers.forEach((item, idx) => {
-    html += `
-      <div class="review-card">
-        <div class="review-meta">
-          <span class="review-index">#${idx + 1}</span>
-          <span class="hud-chip">${item.level}</span>
-        </div>
-        <p class="review-question">${item.question}</p>
-        <div class="review-answers">
-          <div class="answer-badge wrong">
-            <span>Your answer:</span> <strong>${item.selected}</strong>
-          </div>
-          <div class="answer-badge right">
-            <span>Correct:</span> <strong>${item.correct}</strong>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  modalList.innerHTML = html;
-
-  // Modal Event Listeners
-  const openBtn = document.getElementById("open-modal-btn");
-  const closeBtn = document.getElementById("close-modal-btn");
-  const closeActionBtn = document.getElementById("modal-close-action");
-  const modal = document.getElementById("review-modal");
-
-  openBtn.addEventListener("click", () => {
-    modal.classList.remove("hidden");
-    document.body.style.overflow = "hidden"; // Block background scroll
-  });
-
-  const closeModal = () => {
-    modal.classList.add("hidden");
-    document.body.style.overflow = "";
-  };
-
-  closeBtn.addEventListener("click", closeModal);
-  closeActionBtn.addEventListener("click", closeModal);
-}
-  });
-}
+});
