@@ -189,7 +189,6 @@ function showResults() {
 function renderReviewSection() {
   let reviewContainer = document.getElementById("review-container");
 
-  // Create or reset review container
   if (!reviewContainer) {
     reviewContainer = document.createElement("div");
     reviewContainer.id = "review-container";
@@ -209,16 +208,17 @@ function renderReviewSection() {
     return;
   }
 
-  // Collapsible toggle UI
-  let html = `
-    <button id="toggle-review-btn" class="glow-button outline review-toggle-btn">
+  // Trigger button for opening full-screen modal
+  reviewContainer.innerHTML = `
+    <button id="open-modal-btn" class="glow-button outline">
       <span>Review Mistakes (${incorrectAnswers.length})</span>
-      <span class="chevron-icon">▼</span>
+      <span>→</span>
     </button>
-
-    <div id="review-list-wrapper" class="review-list-wrapper hidden">
-      <div class="review-list">
   `;
+
+  // Render cards inside the modal body
+  const modalList = document.getElementById("modal-review-list");
+  let html = "";
 
   incorrectAnswers.forEach((item, idx) => {
     html += `
@@ -240,25 +240,26 @@ function renderReviewSection() {
     `;
   });
 
-  html += `
-      </div>
-    </div>
-  `;
+  modalList.innerHTML = html;
 
-  reviewContainer.innerHTML = html;
+  // Modal Event Listeners
+  const openBtn = document.getElementById("open-modal-btn");
+  const closeBtn = document.getElementById("close-modal-btn");
+  const closeActionBtn = document.getElementById("modal-close-action");
+  const modal = document.getElementById("review-modal");
 
-  // Add click event for expanding/collapsing
-  const toggleBtn = document.getElementById("toggle-review-btn");
-  const wrapper = document.getElementById("review-list-wrapper");
+  openBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden"; // Block background scroll
+  });
 
-  toggleBtn.addEventListener("click", () => {
-    const isHidden = wrapper.classList.contains("hidden");
-    if (isHidden) {
-      wrapper.classList.remove("hidden");
-      toggleBtn.classList.add("expanded");
-    } else {
-      wrapper.classList.add("hidden");
-      toggleBtn.classList.remove("expanded");
-    }
+  const closeModal = () => {
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+  };
+
+  closeBtn.addEventListener("click", closeModal);
+  closeActionBtn.addEventListener("click", closeModal);
+}
   });
 }
