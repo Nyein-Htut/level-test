@@ -4,21 +4,21 @@
 
 :root {
   /* Warm Light Backgrounds */
-  --color-canvas:         #f9f6f0;
-  --color-card-bg:        #ffffff;
-  --color-surface-subtle: #f2ece4;
+  --color-canvas:          #f9f6f0;
+  --color-card-bg:         #ffffff;
+  --color-surface-subtle:  #f2ece4;
   
   /* Deep Dark Espresso Accents & Text */
-  --color-espresso-900:   #0f0b09; /* Deepest Roasted Espresso */
-  --color-espresso-700:   #1a120e; /* Dark Espresso */
-  --color-espresso-500:   #42342b; /* Muted Espresso */
-  --color-espresso-300:   #8c796d;
-  --color-espresso-100:   #e6ded6;
+  --color-espresso-900:    #0f0b09; /* Deepest Roasted Espresso */
+  --color-espresso-700:    #1a120e; /* Dark Espresso */
+  --color-espresso-500:    #42342b; /* Muted Espresso */
+  --color-espresso-300:    #8c796d;
+  --color-espresso-100:    #e6ded6;
   
   /* Rich Amber/Terracotta Accent */
-  --color-accent-amber:   #b05520;
-  --color-accent-hover:   #8f4115;
-  --color-accent-light:   #f7ebe3;
+  --color-accent-amber:    #b05520;
+  --color-accent-hover:    #8f4115;
+  --color-accent-light:    #f7ebe3;
 
   /* Typography */
   --font-heading: 'Outfit', -apple-system, blinkmacsystemfont, sans-serif;
@@ -46,6 +46,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-canvas);
@@ -56,7 +63,6 @@ body {
   align-items: center;
   padding: 1.5rem;
   position: relative;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -102,11 +108,12 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 640px;
-  margin: 1.5rem auto;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
 .glass-card {
+  width: 100%;
   background: var(--color-card-bg);
   border: 1px solid var(--color-espresso-100);
   border-radius: var(--radius-xl);
@@ -177,7 +184,7 @@ body {
 .feature-strip {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem; /* Vertical spacing between tags */
+  gap: 0.875rem;
   margin-bottom: 2.25rem;
   width: 100%;
 }
@@ -189,7 +196,7 @@ body {
   width: 100%;
   background: var(--color-surface-subtle);
   border: 1px solid var(--color-espresso-100);
-  padding: 0.75rem 1rem; /* More breathing room */
+  padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 600;
@@ -590,126 +597,7 @@ body {
 }
 
 /* ==========================================================================
-   Animations & Responsive Rules
-   ========================================================================== */
-
-.fade-in {
-  animation: cardEntrance 0.35s var(--ease-smooth) forwards;
-}
-
-@keyframes cardEntrance {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes optionSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 0.75rem;
-    align-items: flex-start;
-    padding-top: 1.5rem;
-  }
-
-  .app-container {
-    max-width: 100%;
-  }
-
-  .glass-card {
-    padding: 1.75rem 1.25rem;
-    border-radius: var(--radius-lg);
-  }
-
-  .glow-button {
-    padding: 1.2rem 1.5rem;
-    font-size: 1.05rem;
-  }
-
-  .quiz-option {
-    padding: 1.15rem 1rem;
-    font-size: 0.95rem;
-  }
-
-  .hero-title {
-    font-size: 2.2rem;
-  }
-
-  .result-hero {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .review-list {
-    max-height: 280px;
-  }
-
-  .answer-badge {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
-  }
-}
-
-/* ==========================================================================
-   Viewport & Horizontal Scroll Lock Fixes
-   ========================================================================== */
-
-/* Prevent canvas overflow on all screens */
-html, body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-  position: relative;
-}
-
-.app-container {
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
-}
-
-.glass-card {
-  width: 100%;
-  box-sizing: border-box; /* Ensures padding stays inside screen boundaries */
-}
-
-/* Mobile sizing overrides */
-@media (max-width: 480px) {
-  body {
-    padding: 1rem 0.75rem; /* Reduces side padding to fit small viewports */
-  }
-
-  .glass-card {
-    padding: 1.5rem 1rem; /* Compact padding prevents element expansion */
-  }
-
-  .prompt-container h2 {
-    font-size: 1.15rem; /* Prevents long questions from stretching card width */
-    word-break: break-word;
-  }
-}
-
-/* ==========================================================================
    Full-Screen Review Overlay (Modal)
-   ========================================================================== */
-
-/* ==========================================================================
-   Full-Screen Review Overlay (Modal Fix)
    ========================================================================== */
 
 .modal-overlay {
@@ -723,7 +611,7 @@ html, body {
   align-items: center;
   padding: 1rem;
   opacity: 1;
-  pointer-events: auto; /* Re-enables clicks when open */
+  pointer-events: auto;
   transition: opacity 0.25s var(--ease-smooth);
 }
 
@@ -731,6 +619,7 @@ html, body {
   display: none !important;
   pointer-events: none !important;
 }
+
 .modal-content {
   background: var(--color-card-bg);
   border: 1px solid var(--color-espresso-100);
@@ -784,12 +673,91 @@ html, body {
   background: var(--color-canvas);
 }
 
+/* ==========================================================================
+   Animations & Responsive Rules (Mobile Centering & Sizing Fixes)
+   ========================================================================== */
+
+.fade-in {
+  animation: cardEntrance 0.35s var(--ease-smooth) forwards;
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes optionSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.96); }
   to { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 480px) {
+  body {
+    padding: 1rem 0.75rem;
+    align-items: center; /* Kept vertically centered on mobile */
+    justify-content: center;
+  }
+
+  .app-container {
+    max-width: 380px; /* Reduced container size for mobile viewports */
+  }
+
+  .glass-card {
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .glow-button {
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .quiz-option {
+    padding: 1rem 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .prompt-container h2 {
+    font-size: 1.15rem;
+    word-break: break-word;
+  }
+
+  .result-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .review-list {
+    max-height: 280px;
+  }
+
+  .answer-badge {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
   .modal-content {
     height: 92vh;
     border-radius: var(--radius-lg);
