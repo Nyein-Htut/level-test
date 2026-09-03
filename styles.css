@@ -1,0 +1,545 @@
+/* ==========================================================================
+   Design System & Theme Tokens — Deep Dark Espresso & Warm Cream
+   ========================================================================== */
+
+:root {
+  /* Warm Light Backgrounds */
+  --color-canvas:         #f9f6f0;
+  --color-card-bg:        #ffffff;
+  --color-surface-subtle: #f2ece4;
+  
+  /* Deep Dark Espresso Accents & Text */
+  --color-espresso-900:   #0f0b09; /* Deepest Roasted Espresso */
+  --color-espresso-700:   #1a120e; /* Dark Espresso */
+  --color-espresso-500:   #42342b; /* Muted Espresso */
+  --color-espresso-300:   #8c796d;
+  --color-espresso-100:   #e6ded6;
+  
+  /* Rich Amber/Terracotta Accent */
+  --color-accent-amber:   #b05520;
+  --color-accent-hover:   #8f4115;
+  --color-accent-light:   #f7ebe3;
+
+  /* Typography */
+  --font-heading: 'Outfit', -apple-system, blinkmacsystemfont, sans-serif;
+  --font-body:    'Plus Jakarta Sans', -apple-system, blinkmacsystemfont, sans-serif;
+
+  /* Geometry & Shadows */
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-pill: 9999px;
+
+  --shadow-card: 0 16px 32px -8px rgba(15, 11, 9, 0.08), 0 4px 12px rgba(15, 11, 9, 0.04);
+  --shadow-button: 0 8px 20px -4px rgba(176, 85, 32, 0.35);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   Reset & Canvas Setup
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-canvas);
+  color: var(--color-espresso-900);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Background Atmosphere */
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(15, 11, 9, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 11, 9, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  z-index: -1;
+}
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: #ebd8c8;
+  top: -80px;
+  left: -80px;
+}
+
+.orb-2 {
+  width: 450px;
+  height: 450px;
+  background: #f2e3d5;
+  bottom: -100px;
+  right: -100px;
+}
+
+/* ==========================================================================
+   Card Layout & Glassmorphism
+   ========================================================================== */
+
+.app-container {
+  width: 100%;
+  max-width: 520px;
+}
+
+.glass-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-espresso-100);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Typography & Badges
+   ========================================================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-espresso-100);
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-espresso-700);
+  margin-bottom: 1.5rem;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-accent-amber);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--color-accent-amber);
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(1.3); }
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-espresso-900);
+  margin-bottom: 1rem;
+}
+
+.gradient-text {
+  color: var(--color-espresso-700);
+}
+
+.hero-sub {
+  color: var(--color-espresso-500);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.feature-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.25rem;
+}
+
+.feature-tag {
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-espresso-100);
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-md);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--color-espresso-700);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.glow-button {
+  width: 100%;
+  padding: 1.125rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--color-espresso-900);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  transition: all 0.25s var(--ease-smooth);
+  box-shadow: 0 8px 20px -4px rgba(15, 11, 9, 0.25);
+}
+
+.glow-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--color-espresso-700);
+  box-shadow: 0 10px 24px -4px rgba(15, 11, 9, 0.35);
+}
+
+.glow-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.glow-button.outline {
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-espresso-100);
+  color: var(--color-espresso-900);
+  box-shadow: none;
+}
+
+.glow-button.outline:hover:not(:disabled) {
+  background: var(--color-espresso-100);
+  border-color: var(--color-espresso-300);
+}
+
+/* ==========================================================================
+   Quiz Interface & Progress HUD
+   ========================================================================== */
+
+.hud-header {
+  margin-bottom: 2rem;
+}
+
+.hud-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.hud-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-espresso-500);
+}
+
+.hud-chip {
+  background: var(--color-espresso-900);
+  color: #ffffff;
+  padding: 0.25rem 0.625rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.hud-progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.hud-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--color-espresso-900);
+  transition: width 0.4s var(--ease-smooth);
+}
+
+.prompt-container h2 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 1.75rem;
+  color: var(--color-espresso-900);
+}
+
+/* Multiple Choice Stack */
+.options-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.quiz-option {
+  width: 100%;
+  text-align: left;
+  padding: 1.125rem 1.25rem;
+  background: #ffffff;
+  border: 1.5px solid var(--color-espresso-100);
+  border-radius: var(--radius-lg);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-espresso-900);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz-option:hover {
+  border-color: var(--color-espresso-700);
+  background: var(--color-surface-subtle);
+  transform: translateX(3px);
+}
+
+.quiz-option.selected {
+  background: var(--color-espresso-900);
+  border-color: var(--color-espresso-900);
+  color: #ffffff;
+}
+
+.option-index {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-surface-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--color-espresso-500);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.quiz-option.selected .option-index {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   Results Screen
+   ========================================================================== */
+
+.result-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-espresso-100);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  margin: 1.5rem 0;
+}
+
+.cefr-badge-container {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-espresso-900);
+  border-radius: var(--radius-lg);
+}
+
+.cefr-badge-text {
+  font-family: var(--font-heading);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.result-meta .meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-espresso-500);
+  font-weight: 700;
+}
+
+.result-meta h2 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-block: 0.15rem 0.25rem;
+  color: var(--color-espresso-900);
+}
+
+.score-pill {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-accent-amber);
+}
+
+.result-body {
+  color: var(--color-espresso-500);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+/* ==========================================================================
+   Animations & Responsive Rules
+   ========================================================================== */
+
+.fade-in {
+  animation: cardEntrance 0.35s var(--ease-smooth) forwards;
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+  .glass-card {
+    padding: 2rem 1.25rem;
+  }
+  .hero-title {
+    font-size: 2.1rem;
+  }
+  .result-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Mobile-Optimized Touch Effects & Animations
+   ========================================================================== */
+
+/* Prevent default mobile tap highlight callouts */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Enable smooth momentum scrolling on iOS devices */
+.review-list {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Active touch feedback for mobile taps (replaces hover state) */
+.quiz-option:active {
+  transform: scale(0.98);
+  background: var(--color-surface-subtle);
+  border-color: var(--color-espresso-700);
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.glow-button:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(15, 11, 9, 0.2);
+  transition: transform 0.1s ease;
+}
+
+/* Slide-in transition effect when switching options */
+.quiz-option {
+  will-change: transform, background-color, border-color;
+  animation: optionSlideIn 0.3s var(--ease-smooth) backwards;
+}
+
+/* Stagger option appearance for a polished entrance effect */
+.options-stack .quiz-option:nth-child(1) { animation-delay: 0.05s; }
+.options-stack .quiz-option:nth-child(2) { animation-delay: 0.10s; }
+.options-stack .quiz-option:nth-child(3) { animation-delay: 0.15s; }
+.options-stack .quiz-option:nth-child(4) { animation-delay: 0.20s; }
+
+@keyframes optionSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dynamic screen transition animation */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile viewport layout optimizations */
+@media (max-width: 480px) {
+  /* Prevent horizontal overflowing on small devices */
+  body {
+    padding: 0.75rem;
+    align-items: flex-start;
+    padding-top: 1.5rem;
+  }
+
+  .glass-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Increase button touch targets for thumb comfort */
+  .glow-button {
+    padding: 1.2rem 1.5rem;
+    font-size: 1.05rem;
+  }
+
+  .quiz-option {
+    padding: 1.15rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  /* Expand review section height on smaller mobile screens */
+  .review-list {
+    max-height: 280px;
+  }
+}

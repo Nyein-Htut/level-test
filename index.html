@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Irene's English — CEFR Assessment</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="ambient-glow orb-1"></div>
+  <div class="ambient-glow orb-2"></div>
+  <div class="grid-overlay"></div>
+
+  <main class="app-container">
+    <section id="start-screen" class="glass-card active">
+      <div class="status-badge">
+        <span class="pulse-dot"></span>
+        <span>Level Test</span>
+      </div>
+
+      <h1 class="hero-title">
+        Irene's <span class="gradient-text">English.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Discover your official CEFR English proficiency level (A1–C2) with an accurate 30-question diagnostic assessment.
+      </p>
+
+      <div class="feature-strip">
+        <div class="feature-tag">⚡ 30 Precision Questions</div>
+        <div class="feature-tag">🎯 CEFR Level (A1–C2)</div>
+        <div class="feature-tag">⏱️ ~5-10 Mins</div>
+      </div>
+
+      <button id="start-btn" class="glow-button">
+        <span>Start Diagnostic Test</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </section>
+
+    <section id="quiz-screen" class="glass-card hidden">
+      <header class="hud-header">
+        <div class="hud-meta">
+          <span id="question-count" class="hud-label">STEP 01/30</span>
+          <span id="level-indicator" class="hud-chip">LEVEL A1</span>
+        </div>
+        <div class="hud-progress-track">
+          <div id="progress-bar" class="hud-progress-fill"></div>
+        </div>
+      </header>
+
+      <div class="prompt-container">
+        <h2 id="question-text">Loading diagnostic question...</h2>
+      </div>
+
+      <div id="options-container" class="options-stack">
+        </div>
+
+      <footer class="hud-footer">
+        <button id="next-btn" class="glow-button outline" disabled>
+          <span>Continue</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </footer>
+    </section>
+
+    <section id="result-screen" class="glass-card hidden">
+      <div class="status-badge">
+        <span>Assessment Complete</span>
+      </div>
+
+      <div class="result-hero">
+        <div class="cefr-badge-container">
+          <span id="result-cefr" class="cefr-badge-text">B2</span>
+        </div>
+        
+        <div class="result-meta">
+          <span class="meta-label">Assessed Band</span>
+          <h2 id="result-title">Upper Intermediate</h2>
+          <p id="result-score" class="score-pill">22 / 30 Correct</p>
+        </div>
+      </div>
+
+      <p id="result-text" class="result-body">
+        Loading breakdown...
+      </p>
+
+      <button id="restart-btn" class="glow-button">
+        <span>Retake Assessment</span>
+      </button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
