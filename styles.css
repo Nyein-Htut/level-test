@@ -43,6 +43,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -101,7 +102,8 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 520px;
+  max-width: 640px;
+  margin: 1.5rem auto;
 }
 
 .glass-card {
@@ -218,6 +220,12 @@ body {
   box-shadow: 0 10px 24px -4px rgba(15, 11, 9, 0.35);
 }
 
+.glow-button:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(15, 11, 9, 0.2);
+  transition: transform 0.1s ease;
+}
+
 .glow-button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
@@ -316,12 +324,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  will-change: transform, background-color, border-color;
+  animation: optionSlideIn 0.3s var(--ease-smooth) backwards;
 }
+
+.options-stack .quiz-option:nth-child(1) { animation-delay: 0.05s; }
+.options-stack .quiz-option:nth-child(2) { animation-delay: 0.10s; }
+.options-stack .quiz-option:nth-child(3) { animation-delay: 0.15s; }
+.options-stack .quiz-option:nth-child(4) { animation-delay: 0.20s; }
 
 .quiz-option:hover {
   border-color: var(--color-espresso-700);
   background: var(--color-surface-subtle);
   transform: translateX(3px);
+}
+
+.quiz-option:active {
+  transform: scale(0.98);
+  background: var(--color-surface-subtle);
+  border-color: var(--color-espresso-700);
+  transition: transform 0.1s ease, background-color 0.1s ease;
 }
 
 .quiz-option.selected {
@@ -352,6 +374,11 @@ body {
 /* ==========================================================================
    Results Screen
    ========================================================================== */
+
+#result-screen {
+  display: flex;
+  flex-direction: column;
+}
 
 .result-hero {
   display: flex;
@@ -408,7 +435,153 @@ body {
   color: var(--color-espresso-500);
   line-height: 1.6;
   font-size: 0.95rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   Collapsible Review Section & Layout Fixes
+   ========================================================================== */
+
+.review-section {
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.review-toggle-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.95rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-espresso-100);
+  color: var(--color-espresso-900);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.review-toggle-btn .chevron-icon {
+  font-size: 0.75rem;
+  transition: transform 0.3s var(--ease-smooth);
+}
+
+.review-toggle-btn.expanded .chevron-icon {
+  transform: rotate(180deg);
+}
+
+.review-list-wrapper {
+  margin-top: 1rem;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.review-list-wrapper.hidden {
+  display: none !important;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.review-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.review-list::-webkit-scrollbar-track {
+  background: var(--color-surface-subtle);
+  border-radius: 10px;
+}
+
+.review-list::-webkit-scrollbar-thumb {
+  background: var(--color-espresso-300);
+  border-radius: 10px;
+}
+
+.review-card {
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-espresso-100);
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+}
+
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-index {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-espresso-500);
+}
+
+.review-question {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-espresso-900);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.review-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.85rem;
+}
+
+.answer-badge {
+  padding: 0.4rem 0.625rem;
+  border-radius: 6px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.answer-badge.wrong {
+  background: #fdf2f2;
+  color: #9b1c1c;
+  border: 1px solid #f8b4b4;
+}
+
+.answer-badge.right {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.answer-badge span {
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.review-header.perfect {
+  background: var(--color-surface-subtle);
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-espresso-100);
+  text-align: center;
+}
+
+.review-header.perfect p {
+  color: var(--color-espresso-500);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+#restart-btn {
+  margin-top: auto;
 }
 
 /* ==========================================================================
@@ -422,69 +595,13 @@ body {
 @keyframes cardEntrance {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.99);
+    transform: translateY(16px) scale(0.98);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-
-@media (max-width: 480px) {
-  body {
-    padding: 1rem;
-  }
-  .glass-card {
-    padding: 2rem 1.25rem;
-  }
-  .hero-title {
-    font-size: 2.1rem;
-  }
-  .result-hero {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-/* ==========================================================================
-   Mobile-Optimized Touch Effects & Animations
-   ========================================================================== */
-
-/* Prevent default mobile tap highlight callouts */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Enable smooth momentum scrolling on iOS devices */
-.review-list {
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Active touch feedback for mobile taps (replaces hover state) */
-.quiz-option:active {
-  transform: scale(0.98);
-  background: var(--color-surface-subtle);
-  border-color: var(--color-espresso-700);
-  transition: transform 0.1s ease, background-color 0.1s ease;
-}
-
-.glow-button:active:not(:disabled) {
-  transform: scale(0.97);
-  box-shadow: 0 4px 12px rgba(15, 11, 9, 0.2);
-  transition: transform 0.1s ease;
-}
-
-/* Slide-in transition effect when switching options */
-.quiz-option {
-  will-change: transform, background-color, border-color;
-  animation: optionSlideIn 0.3s var(--ease-smooth) backwards;
-}
-
-/* Stagger option appearance for a polished entrance effect */
-.options-stack .quiz-option:nth-child(1) { animation-delay: 0.05s; }
-.options-stack .quiz-option:nth-child(2) { animation-delay: 0.10s; }
-.options-stack .quiz-option:nth-child(3) { animation-delay: 0.15s; }
-.options-stack .quiz-option:nth-child(4) { animation-delay: 0.20s; }
 
 @keyframes optionSlideIn {
   from {
@@ -497,25 +614,15 @@ body {
   }
 }
 
-/* Dynamic screen transition animation */
-@keyframes cardEntrance {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Mobile viewport layout optimizations */
 @media (max-width: 480px) {
-  /* Prevent horizontal overflowing on small devices */
   body {
     padding: 0.75rem;
     align-items: flex-start;
     padding-top: 1.5rem;
+  }
+
+  .app-container {
+    max-width: 100%;
   }
 
   .glass-card {
@@ -523,7 +630,6 @@ body {
     border-radius: var(--radius-lg);
   }
 
-  /* Increase button touch targets for thumb comfort */
   .glow-button {
     padding: 1.2rem 1.5rem;
     font-size: 1.05rem;
@@ -538,8 +644,18 @@ body {
     font-size: 2.2rem;
   }
 
-  /* Expand review section height on smaller mobile screens */
+  .result-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
   .review-list {
     max-height: 280px;
+  }
+
+  .answer-badge {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
   }
 }
